@@ -19,7 +19,6 @@ namespace ZombieShooter
         int cnt2 = 0;
         bool ok = false;
 
-        // Player custom properties
         int playerX;
         int playerY;
         Image playerImage;
@@ -34,20 +33,16 @@ namespace ZombieShooter
         {
             InitializeComponent();
 
-            // 1. Lock window size
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
 
-            // 2. Turn on Double Buffering
             this.DoubleBuffered = true;
 
             label1.Text = "Health: ";
             label2.Text = "Give Up \\-\\";
 
-            // FIX: Assign the image FIRST so it isn't null!
             playerImage = Properties.Resources.up;
 
-            // NOW we can safely calculate its width and height to center it
             playerX = (this.ClientSize.Width / 2) - (playerImage.Width / 2);
             playerY = (this.ClientSize.Height / 2) - (playerImage.Height / 2);
 
@@ -72,13 +67,11 @@ namespace ZombieShooter
             txtAmmo.Text = "Ammo: " + ammo;
             txtScore.Text = "Kills: " + score;
 
-            // 1. MOVE PLAYER
             if (goLeft && playerX > 0) playerX -= speed;
             if (goRight && playerX + playerImage.Width < this.ClientSize.Width) playerX += speed;
             if (goUp && playerY > 45) playerY -= speed;
             if (goDown && playerY + playerImage.Height < this.ClientSize.Height) playerY += speed;
 
-            // Tick buff timers
             cnt++;
             cnt2++;
             if (cnt2 > 150 && ok)
@@ -87,7 +80,6 @@ namespace ZombieShooter
                 ok = false;
             }
 
-            // 2. MOVE BULLETS
             for (int i = bulletsList.Count - 1; i >= 0; i--)
             {
                 Bullet b = bulletsList[i];
@@ -96,20 +88,17 @@ namespace ZombieShooter
                 if (b.Direction == "up") b.Y -= b.Speed;
                 if (b.Direction == "down") b.Y += b.Speed;
 
-                // Delete bullet if it goes off screen
                 if (b.X < 0 || b.X > this.ClientSize.Width || b.Y < 0 || b.Y > this.ClientSize.Height)
                 {
                     bulletsList.RemoveAt(i);
                 }
             }
 
-            // 3. CHECK DROPS (Ammo, Health, Speed, Bad)
             for (int i = dropsList.Count - 1; i >= 0; i--)
             {
                 Drop d = dropsList[i];
                 d.Timer++;
 
-                // Despawn bad item after ~3 seconds
                 if (d.Tag == "bad" && d.Timer > 150)
                 {
                     dropsList.RemoveAt(i);
@@ -137,26 +126,22 @@ namespace ZombieShooter
                 }
             }
 
-            // 4. MOVE ZOMBIES & CHECK COLLISIONS
             int newZombiesToSpawn = 0;
 
             for (int i = zombiesList.Count - 1; i >= 0; i--)
             {
                 Zombie z = zombiesList[i];
 
-                // Damage Player
                 if (playerBounds.IntersectsWith(z.Bounds))
                 {
                     playerHealth -= 1;
                 }
 
-                // Zombie follows player
                 if (z.X > playerX) { z.X -= zombieSpeed; z.Sprite = Properties.Resources.zleft; }
                 if (z.X < playerX) { z.X += zombieSpeed; z.Sprite = Properties.Resources.zright; }
                 if (z.Y > playerY) { z.Y -= zombieSpeed; z.Sprite = Properties.Resources.zup; }
                 if (z.Y < playerY) { z.Y += zombieSpeed; z.Sprite = Properties.Resources.zdown; }
 
-                // Did a bullet hit this zombie?
                 bool zombieDead = false;
                 for (int j = bulletsList.Count - 1; j >= 0; j--)
                 {
@@ -165,9 +150,8 @@ namespace ZombieShooter
                         score++;
                         newZombiesToSpawn++;
                         zombieDead = true;
-                        bulletsList.RemoveAt(j); // Destroy bullet
+                        bulletsList.RemoveAt(j);
 
-                        // Spawn random drop
                         int nr = randNum.Next(1, 31);
                         if (nr % 5 == 0) dropsList.Add(new Drop { X = z.X, Y = z.Y, Sprite = Properties.Resources.ammo2, Tag = "ammo2" });
                         else if (nr % 7 == 0) dropsList.Add(new Drop { X = z.X, Y = z.Y, Sprite = Properties.Resources.bad, Tag = "bad" });
@@ -184,41 +168,34 @@ namespace ZombieShooter
                 }
             }
 
-            // Spawn replacement zombies
             for (int i = 0; i < newZombiesToSpawn; i++)
             {
                 MakeZombies();
             }
 
-            // 5. WIPE THE SCREEN AND REDRAW EVERYTHING!
             this.Invalidate();
         }
 
-        // Overriding the default form painting to draw our graphics perfectly
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
             Graphics g = e.Graphics;
 
-            // Draw drops (bottom layer)
             foreach (Drop d in dropsList)
             {
                 g.DrawImage(d.Sprite, d.X, d.Y);
             }
 
-            // Draw zombies (middle layer)
             foreach (Zombie z in zombiesList)
             {
                 g.DrawImage(z.Sprite, z.X, z.Y);
             }
 
-            // Draw player (top layer)
             if (playerImage != null)
             {
                 g.DrawImage(playerImage, playerX, playerY);
             }
 
-            // Draw bullets
             foreach (Bullet b in bulletsList)
             {
                 g.FillRectangle(Brushes.White, b.Bounds);
@@ -292,8 +269,6 @@ namespace ZombieShooter
             panel1.Visible = false;
             playerImage = Properties.Resources.up;
 
-            // Re-center player based on the hidden picturebox
-            // Re-center player in the middle of the screen
             playerX = (this.ClientSize.Width / 2) - (playerImage.Width / 2);
             playerY = (this.ClientSize.Height / 2) - (playerImage.Height / 2);
 
@@ -322,7 +297,6 @@ namespace ZombieShooter
         }
     }
 
-    // --- The Drop Class ---
     public class Drop
     {
         public int X;
