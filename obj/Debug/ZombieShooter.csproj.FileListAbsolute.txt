@@ -1,0 +1,11 @@
+C:\Users\Nasti\source\repos\ZombieShooter\ZombieShooter\bin\Debug\ZombieShooter.exe.config
+C:\Users\Nasti\source\repos\ZombieShooter\ZombieShooter\bin\Debug\ZombieShooter.exe
+C:\Users\Nasti\source\repos\ZombieShooter\ZombieShooter\bin\Debug\ZombieShooter.pdb
+C:\Users\Nasti\source\repos\ZombieShooter\ZombieShooter\obj\Debug\ZombieShooter.csproj.AssemblyReference.cache
+C:\Users\Nasti\source\repos\ZombieShooter\ZombieShooter\obj\Debug\ZombieShooter.Form1.resources
+C:\Users\Nasti\source\repos\ZombieShooter\ZombieShooter\obj\Debug\ZombieShooter.Properties.Resources.resources
+C:\Users\Nasti\source\repos\ZombieShooter\ZombieShooter\obj\Debug\ZombieShooter.csproj.GenerateResource.cache
+C:\Users\Nasti\source\repos\ZombieShooter\ZombieShooter\obj\Debug\ZombieShooter.csproj.CoreCompileInputs.cache
+C:\Users\Nasti\source\repos\ZombieShooter\ZombieShooter\obj\Debug\ZombieShooter.exe
+C:\Users\Nasti\source\repos\ZombieShooter\ZombieShooter\obj\Debug\ZombieShooter.pdb
+C:\Users\Nasti\source\repos\ZombieShooter\ZombieShooter\obj\Debug\ZombieShooter.exe.config
